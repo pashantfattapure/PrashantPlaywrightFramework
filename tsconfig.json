@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "moduleResolution": "bundler",
+        "strict": true,
+        "esModuleInterop": true,
+        "types": ["node"]
+    }
+}
