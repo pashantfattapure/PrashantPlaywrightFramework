@@ -10,7 +10,7 @@ export let page: Page;
 BeforeAll(async function() {
     console.log('Launch Browser')
     setDefaultTimeout(60 * 1000);
-    browser = await chromium.launch({ headless: false, args: ['--start-maximized'] });
+    browser = await chromium.launch({ headless: true, args: ['--start-maximized'] });
     context = await browser.newContext({
         viewport: null,
         recordVideo: {
