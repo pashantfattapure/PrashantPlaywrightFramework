@@ -8,8 +8,6 @@ on:
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
-      
-nputs:
       environment:
         description: "Select environment"
         required: true
