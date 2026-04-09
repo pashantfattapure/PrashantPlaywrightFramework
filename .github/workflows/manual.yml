@@ -14,19 +14,16 @@ on:
         type: choice
         default: "qa"
         options:
-          - dev
+          - local
           - qa
-          - prod
 
       feature_folder:
         description: "Feature folder to execute"
         required: true
         type: choice
         options:
-          - login
-          - checkout
-          - profile
-
+          - input
+          
       tags:
         description: "Cucumber / test tags (comma separated or single)"
         required: false
@@ -51,12 +48,24 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
+    
+    - name: Validate feature folder
+      run: |
+          if [ ! -d "features/${{ inputs.feature_folder }}" ]; then
+            echo "❌ Feature folder does not exist: features/${{ inputs.feature_folder }}"
+            echo "✅ Available feature folders:"
+            ls features
+            exit 1
+          fi
+
     - name: Install dependencies
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npm run test 
+      run: npm run test -- \
+            features/${{ inputs.feature_folder }}
+
     - name: Upload Playwright Report
       uses: actions/upload-artifact@v4
       if: always()
