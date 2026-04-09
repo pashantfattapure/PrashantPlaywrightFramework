@@ -8,23 +8,50 @@ on:
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
-      name:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'Person to greet'
-        # Default value if no value is explicitly provided
-        default: 'World'
-        # Input has to be provided for the workflow to run
+      
+nputs:
+      environment:
+        description: "Select environment"
         required: true
-        # The data type of the input
-        type: string
+        type: choice
+        default: "qa"
+        options:
+          - dev
+          - qa
+          - prod
+
+      feature_folder:
+        description: "Feature folder to execute"
+        required: true
+        type: choice
+        options:
+          - login
+          - checkout
+          - profile
+
+      tags:
+        description: "Cucumber / test tags (comma separated or single)"
+        required: false
+        default: "@smoke"
+
+      headless:
+        description: "Run in headless mode?"
+        required: true
+        type: boolean
+        default: true
+
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "greet"
-  greet:
+  run-tests:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-latest    
+  env:
+      TEST_ENV: ${{ inputs.environment }}
+      FEATURE_FOLDER: ${{ inputs.feature_folder }}
+      TAGS: ${{ inputs.tags }}
+      HEADLESS: ${{ inputs.headless }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Runs a single command using the runners shell
@@ -34,10 +61,23 @@ jobs:
         node-version: lts/*
     - name: Install dependencies
       run: npm ci
+    
+    - name: Print selected inputs (debug)
+      run: |
+          echo "Environment : $TEST_ENV"
+          echo "Feature     : $FEATURE_FOLDER"
+          echo "Tags        : $TAGS"
+          echo "Headless    : $HEADLESS"
+
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npm run test
+      run: npm run test -- \
+            --env=$TEST_ENV \
+            --feature=features/$FEATURE_FOLDER \
+            --tags="$TAGS" \
+            --headless=$HEADLESS
+
     - name: Upload Playwright Report
       uses: actions/upload-artifact@v4
       if: always()
