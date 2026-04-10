@@ -6,7 +6,7 @@
         ],
         "requireModule": ["ts-node/register"],
         "format": [
-            "progress",
+            "progress-bar",
             "json:reports/cucumber-report.json"
         ],
          "parallel": 2

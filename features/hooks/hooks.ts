@@ -13,22 +13,22 @@ BeforeAll(async function() {
     browser = await chromium.launch({ headless: true, args: ['--start-maximized'] });
     context = await browser.newContext({
         viewport: null,
-        recordVideo: {
-            dir: 'videos/',
-            size: { width: 1280, height: 720 }
-        }
+        // recordVideo: {
+        //     dir: 'videos/',
+        //     size: { width: 1280, height: 720 }
+        // }
     });
     page = await context.newPage();
 })
 
-AfterStep(async function ({ pickleStep, result }) {
-  if (!page) return;
+// AfterStep(async function ({ pickleStep, result }) {
+//   if (!page) return;
 
-  const screenshot = await page.screenshot();
-  await this.attach(screenshot,'image/png');
-  await this.attach(`Step: ${pickleStep.text} - ${result?.status}`, 'text/plain');
-  await page.waitForTimeout(500);
-});
+//   const screenshot = await page.screenshot();
+//   await this.attach(screenshot,'image/png');
+//   await this.attach(`Step: ${pickleStep.text} - ${result?.status}`, 'text/plain');
+//   await page.waitForTimeout(500);
+// });
 
 
 AfterAll(async function() {

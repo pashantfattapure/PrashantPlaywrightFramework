@@ -11,8 +11,8 @@ Given('I open the webpage {string}',{timeout: 60000}, async function (url: strin
 
 Then('I Validate the welcome page title', async function () {
     try{
-    const title = page.locator('h1');
-    await expect(title).toHaveText("Automation Testing Practice");
+    const title = await page.locator('h1');
+    await expect(title).toHaveText("Automation Testing Pracice");
     logger.info("Welcome page title is validated");
 }catch(error) {
     logger.error(`Error validating welcome page title: ${error}`);
