@@ -1,6 +1,6 @@
 {
     "default":{
-        "path":["features/src/*.feature"],
+        "path":["features/src/**/*.feature"],
         "require":["features/step-definations/*.ts",
             "features/hooks/hooks.ts"
         ],
@@ -8,7 +8,8 @@
         "format": [
             "progress",
             "json:reports/cucumber-report.json"
-        ]
+        ],
+         "parallel": 2
 
     }
 }
