@@ -33,8 +33,10 @@ on:
       headless:
         description: "Run in headless mode?"
         required: true
-        type: boolean
-        default: true
+        type: choice
+        options:
+          - true
+          - false
 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
