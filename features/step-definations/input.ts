@@ -91,3 +91,40 @@ Then('I select the days and validate the selected days', async function () {
     logger.error(`Error selecting checkboxes: ${error}`);
     throw error;}
 });
+
+Then('I select the country and validate the selected country', async function () {
+    try{
+    const dropdown = page.locator('#country>option');
+    const options: string[] = (await dropdown.allTextContents()).map(option => option.trim());
+    logger.info("Dropdown options are validated");
+    console.log(options);
+    await page.selectOption('#country', 'India');
+    const selectedValue = await page.locator('#country').inputValue();
+    expect(selectedValue).toBe('india');
+    logger.info("Selected country is validated");
+}catch(error) {
+    logger.error(`Error selecting country: ${error}`);
+    throw error;}   
+});
+
+Then('I see colors field and validate the data in colors field', async function () {
+    try{
+    const colorsDropdown = page.locator('#colors>option');
+    const colors: string[] = (await colorsDropdown.allTextContents()).map(option => option.trim());
+    console.log(colors);
+    logger.info("Colors dropdown options are validated");
+    }catch(error) {
+        logger.error(`Error validating colors dropdown: ${error}`);
+        throw error;}
+});
+
+Then('I see sorted list and validate the data in sorted list', async function () {
+    try{
+    const sortedList = page.locator('#animals>option');
+    const animals: string[] = (await sortedList.allTextContents()).map(option => option.trim());
+    console.log(animals);
+    logger.info("Sorted list options are validated");
+    }catch(error) {
+        logger.error(`Error validating sorted list: ${error}`);
+        throw error;}
+});
